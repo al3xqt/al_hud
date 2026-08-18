@@ -1,0 +1,79 @@
+/* ===========================================================
+   AL HUD FRAMEWORK — editor.css
+   Drag & drop layout editor: snap grid, lock, duplicate, reset.
+   =========================================================== */
+
+#alHud.editing::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: var(--edit-grid, 24px) var(--edit-grid, 24px);
+    z-index: 1;
+}
+
+#alHud.editing .al-widget {
+    outline: 1px dashed rgba(255, 255, 255, 0.25);
+    border-radius: calc(var(--surface-radius) * var(--user-radius-mult));
+    cursor: grab;
+    z-index: 2;
+}
+#alHud.editing .al-widget.dragging { cursor: grabbing; outline-color: var(--accent); z-index: 50; }
+#alHud.editing .al-widget.locked { outline-color: var(--danger); cursor: not-allowed; }
+
+.widget-badge {
+    position: absolute; top: -1.4rem; left: 0;
+    font-size: 0.62rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #0c0c0c;
+    font-family: var(--font-mono);
+    display: none;
+    white-space: nowrap;
+}
+#alHud.editing .al-widget .widget-badge { display: block; }
+
+.widget-toolbar {
+    position: absolute; top: -1.4rem; right: 0;
+    display: none;
+    gap: 0.3rem;
+}
+#alHud.editing .al-widget .widget-toolbar { display: flex; }
+.widget-toolbar button {
+    width: 1.3rem; height: 1.3rem;
+    border-radius: 50%;
+    border: none;
+    background: var(--chip-bg);
+    color: var(--text-primary);
+    font-size: 0.65rem;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.widget-toolbar button:hover { background: var(--accent); color: #0c0c0c; }
+
+#editorBar {
+    position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+    display: none;
+    gap: 0.5rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 999px;
+    background: var(--surface-bg);
+    border: 1px solid var(--surface-border);
+    backdrop-filter: blur(var(--surface-blur));
+    z-index: 10001;
+    pointer-events: auto;
+}
+#alHud.editing ~ #editorBar,
+#editorBar.open { display: flex; }
+#editorBar button {
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: none;
+    background: var(--chip-bg);
+    color: var(--text-primary);
+    font-size: 0.7rem;
+    cursor: pointer;
+}
+#editorBar button.primary { background: var(--gradient-primary); color: #0c0c0c; font-weight: 600; }

@@ -1,0 +1,39 @@
+/* THEME: Neon Blue — deep navy glass with electric blue glow */
+[data-theme="neon-blue"] {
+    --accent: #2f9bff;
+    --accent-2: #7fd8ff;
+    --danger: #ff5470;
+    --warn: #ffcf5c;
+    --text-primary: #eaf4ff;
+    --text-secondary: rgba(200, 226, 255, 0.6);
+
+    --surface-bg: rgba(6, 14, 28, 0.55);
+    --surface-border: rgba(47, 155, 255, 0.30);
+    --surface-blur: 18px;
+    --surface-radius: 16px;
+    --surface-shadow: 0 14px 38px rgba(0, 0, 0, 0.45);
+    --surface-glow: 0 0 30px rgba(47, 155, 255, 0.30);
+
+    --chip-bg: rgba(47, 155, 255, 0.08);
+    --chip-border: rgba(47, 155, 255, 0.22);
+
+    --gradient-primary: linear-gradient(135deg, #2f9bff, #7fd8ff);
+
+    --ring-track: rgba(47, 155, 255, 0.10);
+    --ring-fill: linear-gradient(90deg, #2f9bff, #7fd8ff);
+    --ring-glow: 0 0 24px rgba(47, 155, 255, 0.55);
+
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Structural badge override — icon sits after the value (reversed
+   row direction) with a gradient-filled chip, like a status LED
+   strip rather than a label-first chip. */
+[data-theme="neon-blue"] .badge { flex-direction: row-reverse; padding: 0.3rem 0.3rem 0.3rem 0.55rem; }
+[data-theme="neon-blue"] .badge.tone-cash .badge-icon    { background: linear-gradient(180deg, #1f7a3d, #34d399); }
+[data-theme="neon-blue"] .badge.tone-black .badge-icon   { background: linear-gradient(180deg, #7a1f1f, #f87171); }
+[data-theme="neon-blue"] .badge.tone-bank .badge-icon    { background: linear-gradient(180deg, #1f4a7a, #60a5fa); }
+[data-theme="neon-blue"] .badge.tone-society .badge-icon { background: linear-gradient(180deg, #1f6b6b, #2dd4bf); }
+[data-theme="neon-blue"] .badge.tone-donate .badge-icon  { background: linear-gradient(180deg, #8a6a1f, #fbbf24); }

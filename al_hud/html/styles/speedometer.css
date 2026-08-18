@@ -1,0 +1,84 @@
+/* ===========================================================
+   AL HUD FRAMEWORK — speedometer.css
+   Shared shell for every speedometer component. Individual
+   speedometer JS modules render their own SVG/markup inside
+   #speedoRoot; this file only positions/sizes the shell so
+   every speedometer drops in without layout work.
+   =========================================================== */
+
+#speedHud {
+    bottom: 1.4rem;
+    right: 1.4rem;
+    width: auto;
+    height: 16rem;
+    display: flex; align-items: flex-end; justify-content: flex-end; gap: 0.6rem;
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+    transition: opacity var(--anim-slow) var(--anim-ease), transform var(--anim-slow) var(--anim-ease);
+}
+#speedHud.visible { opacity: var(--user-opacity); transform: translateY(0) scale(var(--vehicle-scale, 1)); }
+
+#speedoRoot {
+    position: relative;
+    width: 16rem; height: 16rem;
+    flex-shrink: 0;
+}
+#speedoRoot > svg { width: 100%; height: 100%; overflow: visible; }
+
+.speedo-track { stroke: var(--ring-track); fill: none; }
+.speedo-fill  { fill: none; stroke-linecap: round; transition: stroke-dashoffset 120ms linear; }
+
+.speedo-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    fill: var(--text-primary);
+}
+.speedo-unit {
+    font-family: var(--font-mono);
+    fill: var(--text-secondary);
+}
+.speedo-gear {
+    font-family: var(--font-display);
+    font-weight: 700;
+    fill: var(--accent);
+}
+
+.speedo-icon-row { display: flex; gap: 0.4rem; }
+.speedo-status-icon {
+    width: 1.1rem; height: 1.1rem;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    background: var(--chip-bg);
+    transition: color var(--anim-fast) var(--anim-ease), background var(--anim-fast) var(--anim-ease);
+}
+.speedo-status-icon svg { width: 62%; height: 62%; }
+.speedo-status-icon.on { color: #0c0c0c; background: var(--accent); box-shadow: var(--ring-glow); }
+.speedo-status-icon.warn.on { background: var(--danger); }
+
+.speedo-fuel-low { animation: al-pulse 0.9s infinite; }
+
+/* Shared compact fuel+damage readout — every speedometer includes one
+   of these (or its own arc-based equivalent), since both must always
+   be visible per spec. */
+.speedo-vitals-row {
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-secondary);
+}
+.speedo-vitals-row .vitals-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.speedo-vitals-row svg {
+    width: 0.85rem; height: 0.85rem;
+    flex-shrink: 0;
+}
+.speedo-vitals-row .vitals-item.fuel svg { color: var(--accent); }
+.speedo-vitals-row .vitals-item.damage svg { color: var(--warn); }
+.speedo-vitals-row .vitals-item.low { color: var(--danger); }
+.speedo-vitals-row .vitals-item.low svg { color: var(--danger); }

@@ -1,0 +1,74 @@
+/* THEME: Cyberpunk — magenta/cyan clash, scanlines, hard edges */
+[data-theme="cyberpunk"] {
+    --accent: #ff2fd6;
+    --accent-2: #17f2ff;
+    --danger: #ff3b3b;
+    --warn: #f7ff2f;
+    --text-primary: #eafcff;
+    --text-secondary: rgba(210, 250, 255, 0.6);
+
+    --surface-bg: rgba(8, 6, 20, 0.62);
+    --surface-border: rgba(255, 47, 214, 0.35);
+    --surface-blur: 10px;
+    --surface-radius: 4px;
+    --surface-shadow: 0 0 0 1px rgba(23, 242, 255, 0.15), 0 14px 34px rgba(0, 0, 0, 0.55);
+    --surface-glow: 0 0 26px rgba(255, 47, 214, 0.35);
+
+    --chip-bg: rgba(255, 47, 214, 0.08);
+    --chip-border: rgba(23, 242, 255, 0.25);
+
+    --gradient-primary: linear-gradient(120deg, #ff2fd6, #17f2ff);
+
+    --ring-track: rgba(255, 255, 255, 0.06);
+    --ring-fill: linear-gradient(90deg, #ff2fd6, #17f2ff);
+    --ring-glow: 0 0 22px rgba(255, 47, 214, 0.55);
+
+    --font-display: 'JetBrains Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* scanline overlay, cyberpunk-only flourish */
+[data-theme="cyberpunk"] .al-card {
+    position: relative;
+    overflow: hidden;
+}
+[data-theme="cyberpunk"] .al-card::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+        0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px,
+        transparent 1px, transparent 3px
+    );
+    mix-blend-mode: overlay;
+    pointer-events: none;
+}
+
+/* Structural badge override — transparent divider-strip readout
+   instead of filled pill chips: no icon-box fill, glowing colored
+   text, thin border-right divider between badges in the same row. */
+[data-theme="cyberpunk"] .badge-row { gap: 0; }
+[data-theme="cyberpunk"] .badge {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0.2rem 0.6rem;
+    border-right: 1px solid rgba(23, 242, 255, 0.25);
+}
+[data-theme="cyberpunk"] .badge:last-child { border-right: none; }
+[data-theme="cyberpunk"] .badge-icon { background: transparent !important; color: currentColor; width: 1rem; height: 1rem; }
+[data-theme="cyberpunk"] .badge span { display: none; }
+[data-theme="cyberpunk"] .badge b {
+    font-size: 0.72rem;
+    text-shadow: 0 0 1px rgba(0,0,0,0.8), 0 0 0.5rem currentColor;
+}
+[data-theme="cyberpunk"] .badge.tone-cash    { color: var(--badge-cash); }
+[data-theme="cyberpunk"] .badge.tone-black   { color: var(--badge-black); }
+[data-theme="cyberpunk"] .badge.tone-bank    { color: var(--badge-bank); }
+[data-theme="cyberpunk"] .badge.tone-donate  { color: var(--badge-donate); }
+[data-theme="cyberpunk"] .badge.tone-society { color: var(--badge-society); }
+[data-theme="cyberpunk"] .badge.tone-players,
+[data-theme="cyberpunk"] .badge.tone-postal,
+[data-theme="cyberpunk"] .badge.tone-id { color: var(--accent-2); }
+[data-theme="cyberpunk"] .badge b { color: inherit; }
