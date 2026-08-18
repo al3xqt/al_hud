@@ -1,0 +1,43 @@
+/* THEME: Black & Gold — luxury, serif touches, warm metallic gradient */
+[data-theme="blackgold"] {
+    --accent: #d9b26a;
+    --accent-2: #f4dda0;
+    --danger: #d1495b;
+    --warn: #d9b26a;
+    --text-primary: #f4ead8;
+    --text-secondary: rgba(244, 234, 216, 0.58);
+
+    --surface-bg: rgba(10, 9, 6, 0.62);
+    --surface-border: rgba(217, 178, 106, 0.28);
+    --surface-blur: 16px;
+    --surface-radius: 10px;
+    --surface-shadow: 0 16px 44px rgba(0, 0, 0, 0.5);
+    --surface-glow: 0 0 20px rgba(217, 178, 106, 0.20);
+
+    --chip-bg: rgba(217, 178, 106, 0.07);
+    --chip-border: rgba(217, 178, 106, 0.22);
+
+    --gradient-primary: linear-gradient(135deg, #d9b26a, #f4dda0);
+
+    --ring-track: rgba(217, 178, 106, 0.10);
+    --ring-fill: linear-gradient(90deg, #a9752f, #f4dda0);
+    --ring-glow: 0 0 16px rgba(217, 178, 106, 0.4);
+
+    --font-display: 'Space Grotesk', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+[data-theme="blackgold"] .al-card {
+    border-image: linear-gradient(135deg, rgba(217,178,106,0.5), rgba(217,178,106,0)) 1;
+}
+
+/* Structural badge override — solid card with drop shadow and
+   fully circular icon chips, echoing a jewelry-case aesthetic. */
+[data-theme="blackgold"] .badge {
+    background: rgba(10, 9, 6, 0.75);
+    border: 1px solid rgba(217, 178, 106, 0.3);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem 0.3rem 0.3rem;
+}
+[data-theme="blackgold"] .badge-icon { border-radius: 50%; }

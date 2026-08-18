@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" data-theme="glass">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AL HUD Framework</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Rajdhani:wght@600;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/weapon.css">
+    <link rel="stylesheet" href="styles/compass.css">
+    <link rel="stylesheet" href="styles/notifications.css">
+    <link rel="stylesheet" href="styles/speedometer.css">
+    <link rel="stylesheet" href="styles/settings.css">
+    <link rel="stylesheet" href="styles/editor.css">
+
+    <link rel="stylesheet" href="styles/themes/glass.css">
+    <link rel="stylesheet" href="styles/themes/cyberpunk.css">
+    <link rel="stylesheet" href="styles/themes/blackgold.css">
+    <link rel="stylesheet" href="styles/themes/neon-blue.css">
+    <link rel="stylesheet" href="styles/themes/carbon.css">
+</head>
+<body>
+    <div id="alHud">
+
+        <!-- ============================================================
+             Player HUD — badge cluster, top right. Every stat is its
+             own colored badge (no shared translucent card), matching
+             the reference layout: brand -> identity row -> money row
+             -> vitals row.
+             ============================================================ -->
+        <section id="playerHud" class="al-enter">
+            <div class="brand-row">
+                <div class="brand-copy">
+                    <div id="logoFrame" class="logo-frame">
+                        <img id="serverLogo" src="assets/logo.png" alt="Server logo">
+                        <span id="logoFallback" style="display:none;">AL</span>
+                    </div>
+                    <h1 id="serverName">Legion NYC</h1>
+                </div>
+                <p><span id="playerJob">Unemployed</span> <span id="job2Sep" style="opacity:.5"> | </span><b id="playerJob2">No Second Job</b></p>
+            </div>
+
+            <div class="badge-row" id="identityRow">
+                <div class="badge tone-players">
+                    <div class="badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <div><span>Players</span><b id="playerOnline">0</b></div>
+                </div>
+                <div class="badge tone-postal">
+                    <div class="badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                    <div><span>Postal</span><b id="postalCode">----</b></div>
+                </div>
+                <div class="badge tone-id">
+                    <div class="badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h.01M11 8h6M7 12h.01M11 12h6M7 16h.01M11 16h6"/></svg></div>
+                    <div><span>ID</span><b id="playerId">0</b></div>
+                </div>
+            </div>
+
+            <div id="moneyRoot"></div>
+
+            <div id="vitalsRoot"></div>
+        </section>
+
+        <!-- Vehicle speedometer -->
+        <section id="speedHud" class="speed-hud">
+            <div id="speedoRoot"></div>
+        </section>
+
+        <!-- Weapon / ammo badge -->
+        <section id="weaponHud"></section>
+
+        <!-- Compass / street name -->
+        <section id="compassHud"></section>
+
+        <!-- Promo offer panel -->
+        <div id="offerWrap" class="offer-wrap al-card" aria-hidden="true">
+            <div class="offer-header">
+                <div class="offer-title-row">
+                    <img class="offer-icon" src="assets/others/vip-icon.gif" alt="">
+                    <div class="offer-title-copy">
+                        <h3>SPECIAL CARS</h3>
+                        <p>Limited donate drop</p>
+                    </div>
+                </div>
+                <img class="offer-brand" src="assets/logo.png" alt="Server logo">
+            </div>
+            <div class="offer-body">
+                <p class="offer-copy">New premium vehicles are now available in the Donate Shop.</p>
+                <ul class="offer-list">
+                    <li><img src="assets/others/icon-speed.png" alt=""><span>Animated GTR</span></li>
+                    <li><img src="assets/others/icon-carkey.png" alt=""><span>BMW M RGB</span></li>
+                    <li><img src="assets/others/icon-car-options.png" alt=""><span>Mercedes AMG GT</span></li>
+                    <li><img src="assets/others/icon-engine.png" alt=""><span>Animated LaFerrari</span></li>
+                </ul>
+            </div>
+            <div class="offer-footer">
+                <span>discord.gg/test</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- core -->
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/i18n.js"></script>
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/state.js"></script>
+    <script src="js/core/bus.js"></script>
+
+    <!-- weapon themes -->
+    <script src="js/weapon/registry.js"></script>
+    <script src="js/weapon/weaponTheme1.js"></script>
+    <script src="js/weapon/weaponTheme2.js"></script>
+    <script src="js/weapon/weaponTheme3.js"></script>
+
+    <!-- components -->
+    <script src="js/components/hud.js"></script>
+    <script src="js/components/weapon.js"></script>
+    <script src="js/components/compass.js"></script>
+    <script src="js/components/notifications.js"></script>
+    <script src="js/components/offer.js"></script>
+
+    <!-- speedometers -->
+    <script src="js/speedometers/registry.js"></script>
+    <script src="js/speedometers/cashoutStyle.js"></script>
+    <script src="js/speedometers/digitalArc.js"></script>
+    <script src="js/speedometers/mbux.js"></script>
+    <script src="js/speedometers/neonRing.js"></script>
+    <script src="js/speedometers/classicAnalog.js"></script>
+    <script src="js/speedometers/f1Bar.js"></script>
+    <script src="js/speedometers/carbonCompact.js"></script>
+
+    <!-- vitals themes -->
+    <script src="js/vitals/registry.js"></script>
+    <script src="js/vitals/vitalsTheme1.js"></script>
+    <script src="js/vitals/vitalsTheme2.js"></script>
+    <script src="js/vitals/vitalsTheme3.js"></script>
+    <script src="js/vitals/vitalsTheme4.js"></script>
+    <script src="js/vitals/vitalsTheme5.js"></script>
+    <script src="js/vitals/vitalsTheme6.js"></script>
+
+    <!-- money themes -->
+    <script src="js/money/registry.js"></script>
+    <script src="js/money/moneyTheme1.js"></script>
+    <script src="js/money/moneyTheme2.js"></script>
+    <script src="js/money/moneyTheme3.js"></script>
+    <script src="js/money/moneyTheme4.js"></script>
+
+    <!-- settings + editor -->
+    <script src="js/settings/panel.js"></script>
+    <script src="js/editor/layoutEditor.js"></script>
+
+    <!-- boot -->
+    <script src="js/main.js"></script>
+</body>
+</html>

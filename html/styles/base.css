@@ -1,0 +1,174 @@
+/* ===========================================================
+   AL HUD FRAMEWORK — base.css
+   Reset + layout skeleton + default CSS-variable contract.
+   Every theme in /styles/themes/*.css only OVERRIDES variables
+   here — it never redefines layout or component rules. That is
+   what makes the theme system cheap to extend.
+   =========================================================== */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    width: 100%; height: 100%;
+    background: transparent;
+    overflow: hidden;
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+}
+
+#alHud { position: fixed; inset: 0; pointer-events: none; }
+#alHud * { pointer-events: none; }
+#alHud.editing .al-widget { pointer-events: auto; }
+
+/* ---------- Default (Glass) variable contract ----------
+   Every theme file must define ALL of these under
+   [data-theme="name"] so nothing falls back unexpectedly. */
+:root {
+    /* palette */
+    --accent: #35e6c4;
+    --accent-2: #3ba7ff;
+    --danger: #ff4d6d;
+    --warn: #ffb545;
+    --text-primary: #f3f8f7;
+    --text-secondary: rgba(243, 248, 247, 0.62);
+
+    /* surfaces */
+    --surface-bg: rgba(14, 22, 24, 0.55);
+    --surface-border: rgba(255, 255, 255, 0.10);
+    --surface-blur: 18px;
+    --surface-radius: 18px;
+    --surface-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    --surface-glow: 0 0 24px rgba(53, 230, 196, 0.18);
+
+    --chip-bg: rgba(255, 255, 255, 0.06);
+    --chip-border: rgba(255, 255, 255, 0.08);
+
+    --gradient-primary: linear-gradient(135deg, var(--accent), var(--accent-2));
+
+    /* speedometer ring */
+    --ring-track: rgba(255, 255, 255, 0.08);
+    --ring-fill: var(--gradient-primary);
+    --ring-glow: 0 0 18px rgba(53, 230, 196, 0.45);
+
+    /* type */
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* motion */
+    --anim-fast: 140ms;
+    --anim-med: 320ms;
+    --anim-slow: 600ms;
+    --anim-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* per-stat icon colors — every vitals/money theme reads these
+       instead of a hardcoded hex, so the "Icon Color" override in
+       Colors & Text only has to set these variables once instead of
+       touching ten separate theme files. */
+    --vital-mic: #cbd5e1;
+    --vital-health: #f87171;
+    --vital-armor: #a78bfa;
+    --vital-hunger: #fb923c;
+    --vital-thirst: #38bdf8;
+    --vital-stamina: #34d399;
+    --money-cash: #34d399;
+    --money-black: #f87171;
+    --money-bank: #60a5fa;
+    --money-society: #a78bfa;
+    --money-donate: #fbbf24;
+
+    /* user-tunable (Settings Panel writes these inline on :root) */
+    --user-scale: 1;
+    --user-opacity: 1;
+    --user-blur-mult: 1;
+    --user-radius-mult: 1;
+    --user-glow-mult: 1;
+
+    /* per-widget scale — each has its own tab control now instead of
+       sharing the single global scale slider */
+    --vehicle-scale: 1;
+    --weapon-scale: 1;
+    --money-scale: 1;
+    --vitals-scale: 1;
+
+    /* badge tones — every theme overrides these, and the Money
+       Settings tab can override individual ones per-user on top */
+    --badge-players: #34d399;
+    --badge-postal: #fb923c;
+    --badge-id: #fbbf24;
+    --badge-cash: #34d399;
+    --badge-black: #f87171;
+    --badge-bank: #60a5fa;
+    --badge-job2: #a78bfa;
+    --badge-donate: #fbbf24;
+    --badge-society: #2dd4bf;
+}
+
+/* ---------- Widget shell ---------- */
+.al-widget {
+    position: absolute;
+    opacity: var(--user-opacity);
+    transform: scale(var(--user-scale));
+    transform-origin: top left;
+    transition: opacity var(--anim-med) var(--anim-ease);
+}
+
+.al-card {
+    background: var(--surface-bg);
+    border: 1px solid var(--surface-border);
+    border-radius: calc(var(--surface-radius) * var(--user-radius-mult));
+    backdrop-filter: blur(calc(var(--surface-blur) * var(--user-blur-mult)));
+    -webkit-backdrop-filter: blur(calc(var(--surface-blur) * var(--user-blur-mult)));
+    box-shadow: var(--surface-shadow);
+}
+
+/* ---------- Utility animations (used across all components) ---------- */
+@keyframes al-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes al-pop-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+@keyframes al-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.55; }
+}
+@keyframes al-glow-pulse {
+    0%, 100% { filter: drop-shadow(0 0 2px currentColor); }
+    50%      { filter: drop-shadow(0 0 10px currentColor); }
+}
+
+.al-enter { animation: al-fade-in var(--anim-med) var(--anim-ease) both; }
+
+/* ---------- Responsive scaling (720p → 4K, ultrawide) ---------- */
+/* ---------- Resolution-aware scaling ----------
+   Continuous (not stepped) scaling: font-size — and every rem-based
+   size in the HUD, since the whole framework is built on rem — grows
+   smoothly with viewport width. This means a 1280x720 player and a
+   3840x2160 player each get a correctly-proportioned HUD automatically,
+   without needing to hit one of a handful of fixed breakpoints.
+   Formula tuned so: 1280w≈13px, 1920w≈16px, 2560w≈18px, 3840w≈23px.
+   Each rule sets a plain-px fallback FIRST: if a client's CEF build is
+   too old to understand clamp(), that whole declaration is invalid and
+   ignored, leaving the earlier valid one in effect — so the HUD stays
+   usable (just non-fluid) instead of silently losing all sizing. */
+html { font-size: 16px; }
+html { font-size: clamp(12px, calc(8px + 0.4vw), 26px); }
+
+/* Ultrawide (21:9+) has much more horizontal than vertical space, so
+   vw-based sizing alone would make the HUD too large relative to
+   screen height — scale off viewport height instead on those. */
+@media (min-aspect-ratio: 21/9) {
+    html { font-size: 15px; }
+    html { font-size: clamp(12px, calc(6px + 1.1vh), 22px); }
+}
+
+/* Very small/legacy resolutions (below 1280x720) — hard floor so
+   nothing becomes unreadably small. */
+@media (max-width: 1279px) {
+    html { font-size: 13px; }
+    html { font-size: clamp(11px, calc(8px + 0.4vw), 13px); }
+}
